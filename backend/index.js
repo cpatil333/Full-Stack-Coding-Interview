@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./util/connectDB.js";
 import userRouter from "./routes/user-route.js";
+import notesRouter from "./routes/notes-route.js";
 import cookieParser  from "cookie-parser";
 
 //intial lise
@@ -18,6 +19,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 const port = process.env.PORT || 5000;
 
 app.use("/app/v1/user", userRouter);
+app.use("/app/v1/notes", notesRouter);
 
 connectDB();
 
