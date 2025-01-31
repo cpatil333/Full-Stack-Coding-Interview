@@ -77,25 +77,25 @@ export const notesById = async (req, res) => {
 };
 
 export const notesGetAll = async (req, res) => {
-    try {
-      const notesData = await Notes.find({});
-  
-      if (!notesData) {
-        return res
-          .status(400)
-          .json({ message: "Notes data doen't not exist", success: false });
-      }
-  
-      return res.status(201).json({
-        message: "Data received successfully..",
-        data: notesData,
-        success: true,
-      });
-    } catch (error) {
-      console.log(error);
+  try {
+    const notesData = await Notes.find({});
+
+    if (!notesData) {
+      return res
+        .status(400)
+        .json({ message: "Notes data doen't not exist", success: false });
     }
-  };
-  
+
+    return res.status(201).json({
+      message: "Data received successfully..",
+      notesData,
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const notesDeleteById = async (req, res) => {
   try {
     const titleId = req.params.id;

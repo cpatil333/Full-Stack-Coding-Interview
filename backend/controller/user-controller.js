@@ -24,7 +24,10 @@ export const register = async (req, res) => {
       .status(201)
       .json({ message: "Account creted successfully.", success: true });
   } catch (error) {
-    console.log(error);
+    console.log("Error during registration:", error);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", success: false });
   }
 };
 
@@ -67,15 +70,16 @@ export const login = async (req, res) => {
       email: userData.email,
     };
 
-    return res
-      .status(201)
-      .json({
-        message: "User login successfully.",
-        user,
-        token,
-        success: true,
-      });
+    return res.status(201).json({
+      message: "User login successfully.",
+      user,
+      token,
+      success: true,
+    });
   } catch (error) {
-    console.log(error);
+    console.log("Error during login:", error);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", success: false });
   }
 };
