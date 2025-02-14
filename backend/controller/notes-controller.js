@@ -16,7 +16,7 @@ export const addNotes = async (req, res) => {
     });
 
     return res
-      .status(400)
+      .status(201)
       .json({ message: "Data saved successfully..", success: true });
   } catch (error) {
     console.log(error);
@@ -25,16 +25,16 @@ export const addNotes = async (req, res) => {
 
 export const editNotes = async (req, res) => {
   try {
-    const { title, content } = req.body;
-
+    const { id, title, content,  } = req.body;
+  
     if (title === "" || content === "") {
       return res
         .status(400)
         .json({ message: "Something wrong", success: false });
     }
 
-    const titleId = req.params.id;
-    const notesData = await Notes.findById(titleId);
+    // const titleId = req.params.id;
+    const notesData = await Notes.findById(id);
 
     if (!notesData) {
       return res

@@ -1,11 +1,11 @@
-import Sidebar from "../components/Sidebar";
+//import Sidebar from "../components/Sidebar";
 import HeroSection from "../components/HeroSection";
 
 const Home = () => {
   return (
     <div>
-      <Sidebar />
-      {/* <HeroSection /> */}
+      {/* <Sidebar /> */}
+      <HeroSection />
     </div>
   );
 };

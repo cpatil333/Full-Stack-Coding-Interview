@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AddDispatch } from "../store/notesStore";
 import { userLoginAsync } from "../redux/notesSlice";
 import { ILogin } from "../models/user-model";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login: React.FC = () => {
   const dispatch = useDispatch<AddDispatch>();
   const [input, setInput] = useState({
     email: "",
@@ -31,8 +31,11 @@ const Login = () => {
         alert("Invalid user name or pasword");
         return false;
       } else {
-        alert("login successfully..");
-        navigate("/register");
+        alert(response.message);
+        // ✅ Store the login state
+        localStorage.setItem("isLogged", "true"); // Mark user as logged in
+        localStorage.setItem("token", response.token); // Store token (if needed)
+        navigate("/"); // Redirect after login
       }
     } catch (error) {
       console.log(error);
@@ -41,8 +44,8 @@ const Login = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-center h-screen">
-        <div className="max-w-2xl bg-white border border-gray-500 px-5 py-5 rounded-xl ">
+      <div className="flex items-center justify-center lg:h-screen px-5 py-5">
+        <div className="lg:w-xl md:w-xl w-full mt-10 bg-white border border-gray-500 px-5 py-5 rounded-xl ">
           <form onSubmit={submitHandle}>
             <div className="mb-3">
               <label>Email:</label>
@@ -51,7 +54,7 @@ const Login = () => {
                 name="email"
                 value={input.email}
                 placeholder="Enter Email"
-                className="outline-none border border-gray-300 px-2 py-2"
+                className="lg:w-[450px] md:w-[450px] w-[300px] ml-3 outline-none border border-gray-300 px-2 py-2"
                 onChange={changeEventHandle}
               />
             </div>
@@ -62,14 +65,14 @@ const Login = () => {
                 name="password"
                 value={input.password}
                 placeholder="Enter Password"
-                className="outline-none border border-gray-300 px-2 py-2"
+                className="lg:w-[450px] md:w-[450px] w-[300px] ml-3 outline-none border border-gray-300 px-2 py-2"
                 onChange={changeEventHandle}
               />
             </div>
             <div className="mb-3">
               <button
                 type="submit"
-                className="w-full font-bold bg-gray-900 text-white px-2 py-2 rounded-lg"
+                className="lg:w-full md:w-full w-[300px] font-bold bg-gray-900 text-white px-2 py-2 rounded-lg"
               >
                 Login
               </button>

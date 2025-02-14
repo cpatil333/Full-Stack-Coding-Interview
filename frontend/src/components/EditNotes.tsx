@@ -1,37 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AddDispatch } from "../store/notesStore";
-import { insertNotesAsync } from "../redux/notesSlice";
-import { INotes } from "../models/user-model";
+import {
+  ediNotesAsync,
+  getnotesByIdAsync,
+  insertNotesAsync,
+} from "../redux/notesSlice";
+import { IGetNotes, INotes } from "../models/user-model";
 
-const AddNotes: React.FC = () => {
+const EditNotes: React.FC = () => {
   const dispatch = useDispatch<AddDispatch>();
   const [input, setInput] = useState({
+    _id: "",
     title: "",
     content: "",
   });
   const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    getNotesById();
+  }, []);
+
+  const getNotesById = async () => {
+    try {
+      const data = await dispatch(getnotesByIdAsync(params.id!.toString()));
+      const response = await (data.payload as IGetNotes).data;
+      if (response) {
+        setInput({
+          _id: response._id,
+          title: response.title,
+          content: response.content,
+        });
+      } else {
+        alert("No Notes found..");
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const formsData = new FormData();
+      formsData.append("id", input._id);
       formsData.append("title", input.title);
       formsData.append("content", input.content);
 
-      //check data in formsdata
-      //console.log("Form data", [...formsData.entries()]);
-
-      const data = await dispatch(insertNotesAsync(formsData));
+      const data = await dispatch(ediNotesAsync(formsData));
       const response = data.payload as INotes;
 
-      //console.log(response);
       if (!response) {
         alert("Data not saved..");
         return false;
       } else {
-        alert("Data saved successfully..");
+        alert("Data updated successfully..");
         navigate("/");
       }
     } catch (error) {
@@ -48,8 +75,9 @@ const AddNotes: React.FC = () => {
     <div className="flex items-center justify-center">
       <div className="lg:w-150 md:w-150 w-85 border border-gray-500 my-10 px-5 py-5">
         <form onSubmit={handleSubmit}>
+          <label className="hidden">{input._id}</label>
           <div>
-            <label>Title</label>
+            <label>Title</label>    
             <input
               type="text"
               name="title"
@@ -86,4 +114,4 @@ const AddNotes: React.FC = () => {
   );
 };
 
-export default AddNotes;
+export default EditNotes;

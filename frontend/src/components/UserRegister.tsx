@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AddDispatch } from "../store/notesStore";
 import { userRegisterAsync } from "../redux/notesSlice";
 import { IUser } from "../models/user-model.tsx";
 import { useNavigate } from "react-router-dom";
 
-const UserRegister = () => {
+const UserRegister: React.FC = () => {
   const dispatch = useDispatch<AddDispatch>();
   const [input, setInput] = useState({
     name: "",

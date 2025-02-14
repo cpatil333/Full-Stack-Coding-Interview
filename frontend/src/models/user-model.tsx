@@ -14,7 +14,7 @@ export interface ILogin {
   success: boolean;
 }
 
-export interface INotes {
+export interface  INotes {
   message: string;
   notesData: Array<{
     _id: string;
@@ -23,9 +23,19 @@ export interface INotes {
   }>;
   success: boolean;
 }
+export interface IGetNotes {
+  message: string;
+  data: {
+    _id: string;
+    title: string;
+    content: string;
+  };
+  success: boolean;
+}
 
 export interface INotesManagementState {
   users: IUser[];
   login: ILogin[];
   notes: INotes[];
+  getNotes: IGetNotes[];
 }
